@@ -139,7 +139,6 @@ function namesToArray (obj) {
   for (var i = 0; i < obj.length; i++) {
     arr.push(obj[i].user);
   };
-  console.log(arr);
   return arr;
 }
 
