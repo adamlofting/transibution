@@ -6,8 +6,7 @@ var connectionOptions = {
   user     : process.env.DB_USER,
   password : process.env.DB_PASSWORD,
   database : process.env.DB_NAME,
-  port     : process.env.DB_PORT,
-  charset: 'UTF8_UNICODE_CI'
+  port     : process.env.DB_PORT
 }
 
 if (process.env.DB_SSL) {
