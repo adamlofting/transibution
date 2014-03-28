@@ -1,0 +1,22 @@
+ ☐ DB prod
+
+
+ ☐ reset option
+
+ ☐ readme
+ ☐ sample.env
+
+Node Transifex:
+ ☐ Submit any changes as PR
+ ☐ Update package.json to use canonical
+
+＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
+Archive:
+ ✔ Copy translation activities into DB @done (14-03-28 14:45)
+ ✔ API @done (14-03-28 14:45)
+ ✔ Get list of translations @done (14-03-28 10:14)
+ ✔ Get list of resources @done (14-03-28 10:14)
+ ✔ Get list of projects @done (14-03-28 10:14)
+ ✔ Get list of language codes @done (14-03-28 10:14)
+ ✔ Env variables @done (14-03-28 10:14)
+ ✔ DB local @done (14-03-28 10:14)
