@@ -1,17 +1,16 @@
- ☐ DB prod
-
 
  ☐ reset option
-
+ ☐ Setup cron job
  ☐ readme
  ☐ sample.env
 
 Node Transifex:
- ☐ Submit any changes as PR
  ☐ Update package.json to use canonical
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
+ ✔ Submit any changes as PR @done (14-04-07 10:27) @project(Node Transifex)
+ ✔ DB prod @done (14-04-03 14:21)
  ✔ Copy translation activities into DB @done (14-03-28 14:45)
  ✔ API @done (14-03-28 14:45)
  ✔ Get list of translations @done (14-03-28 10:14)

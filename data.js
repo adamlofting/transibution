@@ -7,7 +7,7 @@ var connectionOptions = {
   password : process.env.DB_PASSWORD,
   database : process.env.DB_NAME,
   port     : process.env.DB_PORT
-}
+};
 
 if (process.env.DB_SSL) {
   // SSL is used for Amazon RDS, but not necessarily for local dev
@@ -38,7 +38,7 @@ exports.resetDatabaseYesIreallyWantToDoThis = function resetDatabaseYesIreallyWa
       });
     }
   });
-}
+};
 
 
 
@@ -84,7 +84,7 @@ exports.getContributorCounts = function getContributorCounts (date, teamname, ca
                         ' AND mozilla_team = ' + mozTeam,
                         function queryComplete (err, result) {
                           if(err) console.log(err);
-                          callback(null, result)
+                          callback(null, result);
                         });
           },
           last_week: function(callback){
@@ -94,7 +94,7 @@ exports.getContributorCounts = function getContributorCounts (date, teamname, ca
                         ' AND mozilla_team = ' + mozTeam,
                         function queryComplete (err, result) {
                           if(err) console.log(err);
-                          callback(null, result)
+                          callback(null, result);
                         });
           },
           last_year_excluding_last_week: function(callback){
@@ -104,7 +104,7 @@ exports.getContributorCounts = function getContributorCounts (date, teamname, ca
                         ' AND mozilla_team = ' + mozTeam,
                         function queryComplete (err, result) {
                           if(err) console.log(err);
-                          callback(null, result)
+                          callback(null, result);
                         });
           }
       },
@@ -121,7 +121,7 @@ exports.getContributorCounts = function getContributorCounts (date, teamname, ca
       });
     }
   });
-}
+};
 
 function countInLastWeekNotPrior (namesWeek, namesYearExWeek) {
   count = 0;
@@ -129,7 +129,7 @@ function countInLastWeekNotPrior (namesWeek, namesYearExWeek) {
     if (namesYearExWeek.indexOf(namesWeek[i]) == -1) {
       count++;
     }
-  };
+  }
   return count;
 }
 
@@ -137,7 +137,7 @@ function namesToArray (obj) {
   arr = [];
   for (var i = 0; i < obj.length; i++) {
     arr.push(obj[i].user);
-  };
+  }
   return arr;
 }
 
@@ -166,7 +166,7 @@ exports.saveItem = function saveItem(happened_on, user, team, callback) {
         happened_on : new Date(happened_on),
         user : encodeURIComponent(user),
         mozilla_team : team
-      }
+      };
 
       // Using REPLACE INTO to avoid worrying about duplicate entries
       // There is a unique key set across happened_on, team, user

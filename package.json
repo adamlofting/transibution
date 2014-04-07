@@ -28,6 +28,6 @@
     "request": "~2.34.0",
     "mysql": "~2.1.1",
     "cron": "~1.0.4",
-    "node-transifex": "adamlofting/node-transifex"
+    "transifex": "~1.3.5"
   }
 }

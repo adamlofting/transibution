@@ -12,7 +12,7 @@ exports.pingTransifexAndUpdateLocalDB = function pingTransifexAndUpdateLocalDB  
     console.log('DB updated');
     process.exit(0);
   });
-}
+};
 
 // exports.clearAndRebuildDB = function clearAndRebuildDB () {
 //   console.time('reset');
@@ -46,7 +46,7 @@ function fetchAllTheData (orgs, callback) {
     transifex.projectInstanceMethods(projectName, function retrievedProjectLevelInfo (err, data) {
       if (data && data.resources) {
         var language_codes = [];
-        if (data.teams) { language_codes = data.teams };
+        if (data.teams) { language_codes = data.teams; }
 
         async.each(
             data.resources,
@@ -73,10 +73,10 @@ function fetchAllTheData (orgs, callback) {
           function (item, callback) {
             setTimeout( function() {
               getContributionActivities(item, resource, function gotActivities (err, res) {
-                if (err) { console.error(err); };
+                if (err) { console.error(err); }
                 console.log("project:", projectName, "resource:", resource, "item", item);
                 callback(null);
-              })
+              });
             },
             getRandomInt(200000,10)); // setTimeout
 

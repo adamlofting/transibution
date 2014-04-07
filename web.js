@@ -1,6 +1,6 @@
 // web.js
 var express 		= require("express");
-var cronJob     = require("cron").CronJob;;
+var cronJob     = require("cron").CronJob;
 var data        = require("./data");
 var fetch       = require("./update");
 var app         = express();
@@ -51,7 +51,7 @@ app.get('/api', function(req, res) {
 
   data.getContributorCounts(date, team, function gotCounts (err, result) {
     res.json(result);
-  })
+  });
 });
 
 var port = Number(process.env.PORT || 5000);
