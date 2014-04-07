@@ -6,21 +6,15 @@ var fetch       = require("./update");
 var app         = express();
 
 
-// new cronJob('0 */10 * * * *', function() {
-//     fetch.updateAllNumbers(function numbersFetched () {
-//       console.log("Numbers fetched");
-//     });
-// }, null, true);
+new cronJob('0 */20 * * * *', function() {
+    fetch.updateAllNumbers(function numbersFetched () {
+      console.log("== ## == ALL NUMBERS FETCHED");
+    });
+}, null, true);
 
 app.get('/', function(req, res) {
   res.send("You're probably looking for /api or for more info about this app see https://github.com/adamlofting/transibution");
 });
-
-// app.all('*', function(req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header("Access-Control-Allow-Headers", "X-Requested-With");
-//   next();
-//  });
 
 app.get('/api', function(req, res) {
   var date = null;
