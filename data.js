@@ -202,11 +202,10 @@ exports.saveItems = function saveItems(items, callback) {
 
       var q = 'REPLACE INTO activities (happened_on, user, mozilla_team) VALUES ';
       items.forEach(function (item, i) {
-        var e = '(';
-        e = e + mysql.escape(item.happened_on) + ', ';
-        e = e + mysql.escape(encodeURIComponent(item.user)) + ', ';
-        e = e + mysql.escape(item.mozilla_team);
-        e = e + ')';
+        var e = '(' +
+          mysql.escape(item.happened_on) + ', ' +
+          mysql.escape(encodeURIComponent(item.user)) + ', ' +
+          mysql.escape(item.mozilla_team) + ')';
         if (i === (items.length-1)) {
           e = e + ';';
         } else {

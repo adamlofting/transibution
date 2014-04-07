@@ -2,12 +2,12 @@
 var express 		= require("express");
 var cronJob     = require("cron").CronJob;
 var data        = require("./data");
-var fetch       = require("./update");
+var update      = require("./update");
 var app         = express();
 
 
-new cronJob('0 */20 * * * *', function() {
-    fetch.updateAllNumbers(function numbersFetched () {
+new cronJob('0 */30 * * * *', function() {
+    update.pingTransifexAndUpdateLocalDB(function numbersFetched () {
       console.log("== ## == ALL NUMBERS FETCHED");
     });
 }, null, true);
