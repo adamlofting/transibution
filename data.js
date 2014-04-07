@@ -14,9 +14,6 @@ if (process.env.DB_SSL) {
   connectionOptions.ssl = process.env.DB_SSL;
 }
 
-var pool = mysql.createPool(connectionOptions);
-
-
 
 /*
 * RESET THE DATABASE
@@ -24,7 +21,8 @@ var pool = mysql.createPool(connectionOptions);
 */
 exports.resetDatabaseYesIreallyWantToDoThis = function resetDatabaseYesIreallyWantToDoThis(callback) {
 
-  pool.getConnection(function connectionAttempted (err, connection) {
+  var connection = mysql.createConnection(connectionOptions);
+  connection.connect(function connectionAttempted (err) {
 
     if (err) console.log(err);
     else {
@@ -32,7 +30,7 @@ exports.resetDatabaseYesIreallyWantToDoThis = function resetDatabaseYesIreallyWa
 
         if(err) console.log(err);
 
-        connection.release();
+        connection.end();
         callback(err);
 
       });
@@ -48,7 +46,8 @@ exports.resetDatabaseYesIreallyWantToDoThis = function resetDatabaseYesIreallyWa
 exports.getContributorCounts = function getContributorCounts (date, teamname, callback) {
   counts = {};
 
-  pool.getConnection(function connectionAttempted (err, connection) {
+  var connection = mysql.createConnection(connectionOptions);
+  connection.connect(function connectionAttempted (err) {
 
     if (err) {
       console.log(err);
@@ -116,7 +115,7 @@ exports.getContributorCounts = function getContributorCounts (date, teamname, ca
           counts.total_active_contributors = namesYear.length;
           counts.new_contributors_7_days = countInLastWeekNotPrior(namesWeek, namesYearExWeek);
 
-          connection.release();
+          connection.end();
           callback(null, counts);
       });
     }
@@ -154,7 +153,8 @@ function dateToMySQLString (date) {
 */
 exports.saveItem = function saveItem(happened_on, user, team, callback) {
 
-  pool.getConnection(function(err, connection) {
+  var connection = mysql.createConnection(connectionOptions);
+  connection.connect(function(err) {
 
     if (err) {
       console.error(err);
@@ -178,7 +178,54 @@ exports.saveItem = function saveItem(happened_on, user, team, callback) {
           // console.log('saved activity');
           // console.log(activity);
         }
-        connection.release();
+        connection.end();
+        callback(null);
+      });
+    }
+  });
+};
+
+
+/*
+* SAVE
+*/
+exports.saveItems = function saveItems(items, callback) {
+
+  var connection = mysql.createConnection(connectionOptions);
+  connection.connect(function(err) {
+
+    if (err) {
+      console.error(err);
+      callback(err);
+
+    } else {
+
+      var q = 'REPLACE INTO activities (happened_on, user, mozilla_team) VALUES ';
+      items.forEach(function (item, i) {
+        var e = '(';
+        e = e + mysql.escape(item.happened_on) + ', ';
+        e = e + mysql.escape(encodeURIComponent(item.user)) + ', ';
+        e = e + mysql.escape(item.mozilla_team);
+        e = e + ')';
+        if (i === (items.length-1)) {
+          e = e + ';';
+        } else {
+          e = e + ', ';
+        }
+        q = q + e;
+      });
+
+      // Using REPLACE INTO to avoid worrying about duplicate entries
+      // There is a unique key set across happened_on, team, user
+      connection.query(q, function(err, result) {
+        if(err) {
+          console.log("ERROR FOR:", q);
+          console.error(err);
+        } else {
+          // console.log('saved activity');
+          // console.log(activity);
+        }
+        connection.end();
         callback(null);
       });
     }

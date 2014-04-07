@@ -34,7 +34,7 @@ function fetchAllTheData (orgs, callback) {
       credential: process.env.TRANSIFEX_AUTH // In the same format
   });
 
-  async.each(toTrack.projects, fetchProjectData, function fetchedProjectData (err){
+  async.eachSeries(toTrack.projects, fetchProjectData, function fetchedProjectData (err){
       console.log("fetched all project data");
       callback(null);
   });
@@ -48,7 +48,7 @@ function fetchAllTheData (orgs, callback) {
         var language_codes = [];
         if (data.teams) { language_codes = data.teams; }
 
-        async.each(
+        async.eachSeries(
             data.resources,
             function (item, callback) {
               fetchResourceData(item, language_codes, function fetchedxResource (err, res) {
@@ -69,17 +69,13 @@ function fetchAllTheData (orgs, callback) {
     function fetchResourceData (item, language_codes, callback) {
       if (item && item.slug && language_codes) {
         var resource = item.slug;
-        async.each(language_codes,
+        async.eachLimit(language_codes, 3,
           function (item, callback) {
-            setTimeout( function() {
-              getContributionActivities(item, resource, function gotActivities (err, res) {
-                if (err) { console.error(err); }
-                console.log("project:", projectName, "resource:", resource, "item", item);
-                callback(null);
-              });
-            },
-            getRandomInt(200000,10)); // setTimeout
-
+            getContributionActivities(item, resource, function gotActivities (err, res) {
+              if (err) { console.error(err); }
+              console.log("project:", projectName, "resource:", resource, "item", item);
+              callback(null);
+            });
           },
           function gotContributionActivities (err, data) {
             console.log("Saved activities for", team, "resource:", resource);
@@ -100,25 +96,36 @@ function fetchAllTheData (orgs, callback) {
        transifex.translationStringsMethod(projectName, resource, language_code, function(err, response) {
         var translationStrings;
         if (response) {
-          translationStrings = JSON.parse(response);
+          try {
+            translationStrings = JSON.parse(response);
+          } catch (e) {
+            console.error(e);
+          }
         }
         if (translationStrings) {
           console.log("=========", projectName, resource, language_code);
-          async.each(translationStrings,
-            function (item, callback) {
-              if (item.user && item.last_update) {
-                data.saveItem(item.last_update, item.user, team, function savedItem (err, response) {
-                  if (err) { console.error("Error saving item:", err);}
-                  console.log("-- saved:", projectName, resource, item.user, team);
-                  callback(null);
-                });
-              }
-            },
-            function allActivitiesSaved (err, response) {
-              console.log("all activities saved to this");
-              callback(null);
+
+          var activitiesToSave = [];
+          translationStrings.forEach(function (item) {
+            if (item.user && item.last_update) {
+              var activity = {};
+              activity.happened_on = item.last_update;
+              activity.user = item.user;
+              activity.mozilla_team = team;
+              activitiesToSave.push(activity);
             }
-          );
+          });
+
+          if (activitiesToSave.length > 0) {
+            data.saveItems(activitiesToSave, function savedItems (err, response) {
+              if (err) { console.error("Error saving item:", err);}
+              console.log("-- saved:", activitiesToSave.length, "activities");
+              callback(null);
+            });
+          } else {
+            callback(null);
+          }
+
         } else {
           console.log("No translationStrings");
           callback(null);
