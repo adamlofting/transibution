@@ -1,10 +1,10 @@
 
- ☐ reset option
 
 Node Transifex:
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
+ ✔ reset option @done (14-04-07 12:16)
  ✔ Update package.json to use canonical @done (14-04-07 12:02) @project(Node Transifex)
  ✔ sample.env @done (14-04-07 12:01)
  ✔ readme @done (14-04-07 12:01)
