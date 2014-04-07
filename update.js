@@ -19,7 +19,7 @@ exports.clearAndRebuildDB = function clearAndRebuildDB () {
   data.resetDatabaseYesIreallyWantToDoThis(function resetAttempted () {
     console.log('Database Reset Complete');
 
-    fetchAllTheData(null, function allDataFetched () {
+    fetchAllTheData(function allDataFetched () {
       console.timeEnd('reset');
       process.exit(0);
     });
