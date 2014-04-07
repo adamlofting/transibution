@@ -4,30 +4,30 @@ var data        = require('./data');
 var transifex   = require('transifex');
 
 
-// Get our JSON config file
-var teams = toTrack.teams;
-
 exports.pingTransifexAndUpdateLocalDB = function pingTransifexAndUpdateLocalDB  () {
-  fetchAllTheData(teams, function allDataFetched () {
+  fetchAllTheData(function allDataFetched () {
     console.log('DB updated');
     process.exit(0);
   });
 };
 
-// exports.clearAndRebuildDB = function clearAndRebuildDB () {
-//   console.time('reset');
-//   data.resetDatabaseYesIreallyWantToDoThis(function resetAttempted () {
-//     console.log('Database Reset Complete');
+/**
+ * Utility function in-case project names etc change on Transifex
+ */
+exports.clearAndRebuildDB = function clearAndRebuildDB () {
+  console.time('reset');
+  data.resetDatabaseYesIreallyWantToDoThis(function resetAttempted () {
+    console.log('Database Reset Complete');
 
-//     fetchAllTheData(orgs, null, function allDataFetched () {
-//       console.timeEnd('reset');
-//       process.exit(0);
-//     });
-//   });
-// }
+    fetchAllTheData(null, function allDataFetched () {
+      console.timeEnd('reset');
+      process.exit(0);
+    });
+  });
+};
 
 
-function fetchAllTheData (orgs, callback) {
+function fetchAllTheData (callback) {
 
   transifex.init({
       project_slug: "webmaker",

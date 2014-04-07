@@ -1,14 +1,14 @@
 
  ☐ reset option
- ☐ Setup cron job
- ☐ readme
- ☐ sample.env
 
 Node Transifex:
- ☐ Update package.json to use canonical
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
+ ✔ Update package.json to use canonical @done (14-04-07 12:02) @project(Node Transifex)
+ ✔ sample.env @done (14-04-07 12:01)
+ ✔ readme @done (14-04-07 12:01)
+ ✔ Setup cron job @done (14-04-07 12:01)
  ✔ Submit any changes as PR @done (14-04-07 10:27) @project(Node Transifex)
  ✔ DB prod @done (14-04-03 14:21)
  ✔ Copy translation activities into DB @done (14-03-28 14:45)
