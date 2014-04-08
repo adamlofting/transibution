@@ -1,16 +1,9 @@
 // web.js
 var express 		= require("express");
-var cronJob     = require("cron").CronJob;
 var data        = require("./data");
 var update      = require("./update");
 var app         = express();
 
-
-new cronJob('0 */30 * * * *', function() {
-    update.pingTransifexAndUpdateLocalDB(function numbersFetched () {
-      console.log("== ## == ALL NUMBERS FETCHED");
-    });
-}, null, true);
 
 app.get('/', function(req, res) {
   res.send("You're probably looking for /api or for more info about this app see https://github.com/adamlofting/transibution");
